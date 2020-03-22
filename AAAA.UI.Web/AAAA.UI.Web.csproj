@@ -11,9 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AAAA.Aplication\AAAA.Aplication.csproj" />
-    <ProjectReference Include="..\AAAA.Domain\AAAA.Domain.csproj" />
-    <ProjectReference Include="..\AAAA.Infra.Data\AAAA.Infra.Data.csproj" />
+    <ProjectReference Include="..\AAAA.infra.CrossCutting.IOC\AAAA.infra.CrossCutting.IOC.csproj" />
   </ItemGroup>
 
 

@@ -1,14 +1,11 @@
-using AAAA.Aplication.Interfaces;
-using AAAA.Aplication.Services;
-using AAAA.Domain.Interfaces;
 using AAAA.Infra.Data.Context;
-using AAAA.Infra.Data.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using AAAA.infra.CrossCutting.IOC;
 
 namespace AAAA.UI.Web
 {
@@ -26,9 +23,8 @@ namespace AAAA.UI.Web
         {
             services.AddRazorPages();
             services.AddDbContext<AAAAContext>(options=> options.UseInMemoryDatabase("AAAA"));
-            services.AddScoped<IUserAppService, UserAppService>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IAuthService, AuthService>();
+            services.RegisterServices();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
