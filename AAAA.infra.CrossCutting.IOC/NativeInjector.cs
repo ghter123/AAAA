@@ -10,7 +10,7 @@ namespace AAAA.infra.CrossCutting.IOC
     {
         public static void RegisterServices(this IServiceCollection services)
         {
-            services.AddScoped<IUserAppService, UserAppService>();
+            services.AddScoped<IAuthAppService, AuthenticationService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthService, AuthService>();
         }

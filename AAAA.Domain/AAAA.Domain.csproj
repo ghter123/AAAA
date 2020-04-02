@@ -8,4 +8,8 @@
     <ProjectReference Include="..\AAAA.Domain.Core\AAAA.Domain.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
