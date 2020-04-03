@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace AAAA.Aplication.Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthenticationAppService : IAuthenticationService
     {
         public Task<AuthenticateResult> AuthenticateAsync()
         {

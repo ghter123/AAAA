@@ -11,9 +11,9 @@ namespace AAAA.Infra.Data.Repository
         {
 
         }
-        public User GetByAccount(string account)
+        public User GetByAccount(string account,string password)
         {
-            return DBSet.FirstOrDefault(o => o.Account == account);
+            return DBSet.SingleOrDefault(o => o.Account == account && o.Password == password);
         }
     }
 }

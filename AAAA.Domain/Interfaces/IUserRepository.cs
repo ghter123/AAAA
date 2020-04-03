@@ -2,6 +2,6 @@
 {
     public interface IUserRepository : IRepository<User>
     {
-        User GetByAccount(string account);
+        User GetByAccount(string account,string password);
     }
 }
