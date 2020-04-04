@@ -26,10 +26,10 @@ namespace AAAA.Domain.Services
             _tokenConfig = tokenConfig;
         }
 
-        public bool Authenticate(string token)
+        public IEnumerable<Claim> Authenticate(string token)
         {
             var jwtSecurityToken = new JwtSecurityToken(token);
-            return jwtSecurityToken.ValidTo < DateTime.UtcNow;
+            return jwtSecurityToken.ValidTo < DateTime.UtcNow ? jwtSecurityToken.Claims : null;
         }
 
         public string Create(IEnumerable<Claim> claims)
@@ -55,6 +55,7 @@ namespace AAAA.Domain.Services
 
         public void Deactivate(string token)
         {
+
         }
     }
 }

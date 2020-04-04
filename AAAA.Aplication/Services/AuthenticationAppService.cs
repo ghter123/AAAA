@@ -1,26 +1,62 @@
 ﻿using AAAA.Aplication.Interfaces;
-using System.Threading.Tasks;
+using AAAA.Domain.Interfaces;
+using AAAA.Aplication.ViewModels;
 
 namespace AAAA.Aplication.Services
 {
-    public class AuthenticationAppService : IAuthenticationService
+    public class AuthenticationAppService : IAuthenticationAppService
     {
-        public Task<AuthenticateResult> AuthenticateAsync()
+        private readonly ITokenService _tokenService;
+        private readonly IUserRepository _userRepository;
+
+        public AuthenticationAppService(ITokenService tokenService, IUserRepository userRepository)
         {
-            throw new System.NotImplementedException();
+            _tokenService = tokenService;
+            _userRepository = userRepository;
         }
 
-        public Task<string> GetTokenAsync(string tokenName)
+        public AuthenticateResult Authenticate(string token)
         {
-            throw new System.NotImplementedException();
+            var claims = _tokenService.Authenticate(token);
+            if (claims != null)
+            {
+                return new AuthenticateResult
+                {
+                    Claims = claims,
+                    Suceessed = true
+                };
+            }
+
+            var newToken = _tokenService.Refresh(token);
+            if (newToken == null) return new AuthenticateResult { Suceessed = false };
+            return new AuthenticateResult
+            {
+                Claims = _tokenService.Authenticate(newToken),
+                Suceessed = true,
+                NewToken = newToken
+            };
         }
 
-        public Task<string> SignInAsync()
+        public SignInResult SignIn(string account, string password)
         {
-            throw new System.NotImplementedException();
+            var user = _userRepository.GetByAccount(account, password);
+
+            if (user == null)
+            {
+                return new SignInResult
+                {
+                    Suceessed = false
+                };
+            }
+
+            return new SignInResult
+            {
+                Suceessed = true,
+                Token = _tokenService.Create(user.GetClaims())
+            };
         }
 
-        public Task SignOutAsync()
+        public void SignOut(string token)
         {
             throw new System.NotImplementedException();
         }

@@ -6,7 +6,7 @@ namespace AAAA.Domain.Interfaces
     public interface ITokenService
     {
         // 验证颁发的证书。
-        public bool Authenticate(string token);
+        public IEnumerable<Claim> Authenticate(string token);
 
         // 颁发JWT。
         string Create(IEnumerable<Claim> claims);
