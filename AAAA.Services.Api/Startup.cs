@@ -1,19 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AAAA.infra.CrossCutting.IOC;
-using AAAA.Infra.Data.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using AAAA.Domain.Services;
+using AAAA.Services.Api.Configurations;
 
 namespace AAAA.Services.Api
 {
@@ -29,13 +19,24 @@ namespace AAAA.Services.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.RegisterServices();
-            services.AddDbContext<AAAAContext>(options => options.UseInMemoryDatabase("AAAA"));
+            // Setting DBContexts
+            services.AddDatabaseSetup(Configuration);
 
-            var tokenConfigSection = Configuration.GetSection("TokenConfig");
-            var tokenConfig = tokenConfigSection.Get<TokenConfig>();
-            services.AddSingleton(tokenConfig);
+            // ASP.NET Identity Settings & JWT
+            services.AddIdentitySetup(Configuration);
+
+            // WebAPI Config
+            services.AddControllers();
+
+            // Authorization
+            services.AddAuthSetup(Configuration);
+
+            // Swagger Config
+            services.AddSwaggerSetup();
+
+            // .NET Native DI Abstraction
+            services.AddDependencyInjectionSetup();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,12 +51,22 @@ namespace AAAA.Services.Api
 
             app.UseRouting();
 
+            app.UseCors(c =>
+            {
+                c.AllowAnyHeader();
+                c.AllowAnyMethod();
+                c.AllowAnyOrigin();
+            });
+
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            app.UseSwaggerSetup();
         }
     }
 }
