@@ -19,22 +19,21 @@ namespace AAAA.Services.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Setting DBContexts
+            // DBContextsÅäÖÃ
             services.AddDatabaseSetup(Configuration);
 
-            // ASP.NET Identity Settings & JWT
+            // ASPNET.IdentityºÍJWTÅäÖÃ
             services.AddIdentitySetup(Configuration);
 
-            // WebAPI Config
             services.AddControllers();
 
-            // Authorization
+            // Policy¼øÈ¨ÅäÖÃ
             services.AddAuthSetup(Configuration);
 
-            // Swagger Config
+            // SwaggerÅäÖÃ
             services.AddSwaggerSetup();
 
-            // .NET Native DI Abstraction
+            // ±¾µÍÒÀÀµ×¢Èë
             services.AddDependencyInjectionSetup();
 
         }
@@ -51,12 +50,12 @@ namespace AAAA.Services.Api
 
             app.UseRouting();
 
-            app.UseCors(c =>
-            {
-                c.AllowAnyHeader();
-                c.AllowAnyMethod();
-                c.AllowAnyOrigin();
-            });
+            //app.UseCors(c =>
+            //{
+            //    c.AllowAnyHeader();
+            //    c.AllowAnyMethod();
+            //    c.AllowAnyOrigin();
+            //});
 
             app.UseAuthorization();
             app.UseAuthentication();
